@@ -6,21 +6,11 @@ import grayMatter from 'gray-matter';
 import moment from 'moment';
 import { removeMarkdown } from './utils/removeMarkdown';
 import { limitTokens } from './utils/tokenize';
-
-type MarkdownData = {
-    title?: string | null;
-    date?: number | null;
-    description?: string | null;
-    authors?: string[] | null;
-    tags?: string[] | null;
-    tokens?: number | null;
-    content?: string | null;
-    questions?: string[] | null;
-    answers?: string[] | null;
-};
+import { generateQuestions, generateAnswers } from './utils/generateQA';
+import { MarkdownData } from './utils/configType';
 
 const MD_DIRECTORY_PATH = './prisma/handbook';
-const DIST_FILE_PATH = './prisma/test.json';
+const DIST_FILE_PATH = './prisma/qa.json';
 // const prisma = new PrismaClient();
 // const SALT_ROUNDS = 10;
 
@@ -43,15 +33,49 @@ const DIST_FILE_PATH = './prisma/test.json';
 
 async function parseHandbook() {
     try {
-        const documents = await walkDirectory(MD_DIRECTORY_PATH); // Use the new walkDirectory function
-        await writeFile(
-            DIST_FILE_PATH,
-            JSON.stringify({
-                documents
+        const documents = await walkDirectory(MD_DIRECTORY_PATH);
+
+        await Promise.all(
+            documents.map(async (document) => {
+                if (!document.content) {
+                    document.questions = null;
+                    return;
+                }
+                try {
+                    const questions = await generateQuestions(document.content);
+                    document.questions = questions;
+                    return;
+                } catch (error) {
+                    document.questions = null;
+                    throw new Error('Error generating questions:', error);
+                }
             })
         );
+
+        await Promise.all(
+            documents.map(async (document) => {
+                if (!document.questions || (document.questions && document.questions.length === 0)) {
+                    document.answers = null;
+                    return;
+                }
+                try {
+                    const answers = await generateAnswers(document);
+                    document.answers = answers;
+                    return;
+                } catch (error) {
+                    document.answers = null;
+                    throw new Error('Error generating answers:', error);
+                }
+            })
+        );
+
+        try {
+            await writeFile(DIST_FILE_PATH, JSON.stringify({ documents }));
+        } catch (err) {
+            throw new Error('Error writing qa.json:', err);
+        }
     } catch (err) {
-        console.error(err);
+        throw new Error('Error parsing handbook:', err);
     }
 }
 
@@ -78,7 +102,6 @@ async function parseMarkdownFile(fileName: string) {
     const document: MarkdownData = {
         title: matter.data.title ? matter.data.title : null,
         date: matter.data.date ? moment(matter.data.date).unix() : null,
-        description: matter.data.description ? matter.data.description : null,
         authors: matter.data.authors ? matter.data.authors : null,
         tags: matter.data.tags ? matter.data.tags : null
     };

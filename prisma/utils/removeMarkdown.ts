@@ -1,12 +1,4 @@
-type MarkdownOptions = {
-    stripListLeaders?: boolean;
-    listUnicodeChar?: string;
-    gfm?: boolean;
-    useImgAltText?: boolean;
-    abbr?: boolean;
-    replaceLinksWithURL?: boolean;
-    htmlTagsToSkip?: string[];
-};
+import { MarkdownOptions } from './configType';
 
 export function removeMarkdown(md: string, options?: MarkdownOptions): string {
     if (!md) return '';
@@ -97,7 +89,7 @@ export function removeMarkdown(md: string, options?: MarkdownOptions): string {
             // Replace strike through
             .replace(/~(.*?)~/g, '$1');
     } catch (e) {
-        console.error(e);
+        throw new Error('Error removing markdown:', e);
     }
     return output;
 }
