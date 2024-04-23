@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { readdir, readFile, writeFile } from 'fs/promises';
+import { readFile, readdir, writeFile } from 'fs/promises';
 import path from 'path';
 // import { hashSync } from 'bcrypt';
 import grayMatter from 'gray-matter';
@@ -8,12 +8,13 @@ import { removeMarkdown } from './utils/removeMarkdown';
 import { limitTokens } from './utils/tokenize';
 import { generateQuestions, generateAnswers } from './utils/generateQA';
 import { MarkdownData } from './utils/configType';
+import { fineTune } from './utils/fineTune';
 
 const MD_DIRECTORY_PATH = './prisma/handbook';
 const DEST_FILE_TRAIN = './prisma/qa_train.jsonl';
 
 const prisma = new PrismaClient();
-// const SALT_ROUNDS = 10;
+//const SALT_ROUNDS = 10;
 
 // const user = {
 //     email: 'phu.nguyen2310@hcmut.edu.vn',
@@ -90,11 +91,9 @@ async function parseHandbook() {
         }
 
         const fineTuningDataset = createFineTuningDataset(documents);
-        let dataString = '';
-        for (const row of fineTuningDataset) {
-            dataString += JSON.stringify(row) + '\n';
-        }
-        await writeFile(DEST_FILE_TRAIN, JSON.stringify(dataString));
+        const jsonlContent = fineTuningDataset.map((row) => JSON.stringify(row)).join('\n');
+        await writeFile(DEST_FILE_TRAIN, jsonlContent);
+        fineTune();
     } catch (err) {
         throw new Error('Error parsing handbook:', err);
     }
@@ -156,5 +155,5 @@ function createFineTuningDataset(data: MarkdownData[]) {
     return rows;
 }
 
-// generateSampleUser();
+//generateSampleUser();
 parseHandbook();
