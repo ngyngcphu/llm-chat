@@ -40,7 +40,7 @@ export function removeMarkdown(md: string, options?: MarkdownOptions): string {
         }
 
         output = output
-            // Remove HTML tags (using template literals for clarity)
+            // Remove HTML tags
             .replace(/<[^>]*>/g, '');
 
         let htmlReplaceRegex = new RegExp('<[^>]*>', 'g');
@@ -82,10 +82,8 @@ export function removeMarkdown(md: string, options?: MarkdownOptions): string {
             .replace(/(`{3,})(.*?)\1/gm, '$2')
             // Remove inline code
             .replace(/`(.+?)`/g, '$1')
-            // // Replace two or more newlines with exactly two? Not entirely sure this belongs here...
-            // .replace(/\n{2,}/g, '\n\n')
-            // // Remove newlines in a paragraph
-            // .replace(/(\S+)\n\s*(\S+)/g, '$1 $2')
+            // Replace two or more newlines with exactly two
+            .replace(/\n{2,}/g, '\n\n')
             // Replace strike through
             .replace(/~(.*?)~/g, '$1');
     } catch (e) {
