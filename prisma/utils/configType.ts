@@ -11,8 +11,8 @@ export type MarkdownOptions = {
 export type MarkdownData = {
     title?: string | null;
     date?: number | null;
-    authors?: string[] | null;
-    tags?: string[] | null;
+    authors: string[];
+    tags: string[];
     tokens?: number | null;
     content?: string | null;
     questions?: string | null;

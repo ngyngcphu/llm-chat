@@ -21,8 +21,8 @@
     "lint": "eslint '**/*.{ts,js}'",
     "lint:fix": "eslint '**/*.{ts,js}' --fix",
     "format": "prettier '**/*.{ts,js,json}' --write",
-    "start:docker": "docker-compose -f docker-compose.dev.yml up -d",
-    "clean:docker": "docker-compose -f docker-compose.dev.yml down --volumes --remove-orphans",
+    "start:docker": "docker compose -f docker-compose.dev.yml up -d",
+    "clean:docker": "docker compose -f docker-compose.dev.yml down --volumes --remove-orphans",
     "clean:git": "git branch --merged >/tmp/merged-branches && nano /tmp/merged-branches && xargs git branch -D </tmp/merged-branches && git fetch --prune --all"
   },
   "dependencies": {

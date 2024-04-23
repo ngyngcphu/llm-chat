@@ -16,3 +16,15 @@ model User {
   email    String @unique @db.VarChar(50)
   password String
 }
+
+model Conversation {
+  id        String   @id @default(cuid())
+  title     String?
+  date      Int?
+  authors   String[] @db.VarChar(255)
+  tags      String[] @db.VarChar(255)
+  tokens    Int?
+  content   String?  @db.Text
+  questions String?  @db.Text
+  answers   String?  @db.Text
+}

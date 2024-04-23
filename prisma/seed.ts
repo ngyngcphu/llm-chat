@@ -1,7 +1,7 @@
+import { PrismaClient } from '@prisma/client';
 import { readdir, readFile, writeFile } from 'fs/promises';
 import path from 'path';
 // import { hashSync } from 'bcrypt';
-// import { PrismaClient } from '@prisma/client';
 import grayMatter from 'gray-matter';
 import moment from 'moment';
 import { removeMarkdown } from './utils/removeMarkdown';
@@ -10,8 +10,9 @@ import { generateQuestions, generateAnswers } from './utils/generateQA';
 import { MarkdownData } from './utils/configType';
 
 const MD_DIRECTORY_PATH = './prisma/handbook';
-const DIST_FILE_PATH = './prisma/qa.json';
-// const prisma = new PrismaClient();
+const DEST_FILE_TRAIN = './prisma/qa_train.jsonl';
+
+const prisma = new PrismaClient();
 // const SALT_ROUNDS = 10;
 
 // const user = {
@@ -70,10 +71,30 @@ async function parseHandbook() {
         );
 
         try {
-            await writeFile(DIST_FILE_PATH, JSON.stringify({ documents }));
+            await prisma.conversation.deleteMany();
+            await prisma.conversation.createMany({
+                data: documents.map((document) => ({
+                    title: document.title,
+                    date: document.date,
+                    authors: document.authors,
+                    tags: document.tags,
+                    tokens: document.tokens,
+                    content: document.content,
+                    questions: document.questions,
+                    answers: document.answers
+                })),
+                skipDuplicates: true
+            });
         } catch (err) {
-            throw new Error('Error writing qa.json:', err);
+            throw new Error('Error creating conversations:', err);
         }
+
+        const fineTuningDataset = createFineTuningDataset(documents);
+        let dataString = '';
+        for (const row of fineTuningDataset) {
+            dataString += JSON.stringify(row) + '\n';
+        }
+        await writeFile(DEST_FILE_TRAIN, JSON.stringify(dataString));
     } catch (err) {
         throw new Error('Error parsing handbook:', err);
     }
@@ -102,14 +123,37 @@ async function parseMarkdownFile(fileName: string) {
     const document: MarkdownData = {
         title: matter.data.title ? matter.data.title : null,
         date: matter.data.date ? moment(matter.data.date).unix() : null,
-        authors: matter.data.authors ? matter.data.authors : null,
-        tags: matter.data.tags ? matter.data.tags : null
+        authors: matter.data.authors ? matter.data.authors : [],
+        tags: matter.data.tags ? matter.data.tags : []
     };
 
     const { text, tokens } = await limitTokens(str);
     document.tokens = tokens;
     document.content = text;
     return document;
+}
+
+function createFineTuningDataset(data: MarkdownData[]) {
+    const rows = [];
+    for (const item of data) {
+        if (item.questions && item.answers && item.questions.length > 0 && item.answers.length > 0) {
+            const questions = item.questions.split('\n');
+            const answers = item.answers.split('\n');
+
+            for (let i = 0; i < questions.length; i++) {
+                const question = questions[i].trim().slice(2);
+                const answer = answers[i].trim().slice(2);
+                rows.push({
+                    messages: [
+                        { role: 'system', content: 'You are a factual chatbot to answer questions about Dwarves Foundation.' },
+                        { role: 'user', content: question },
+                        { role: 'assistant', content: answer + '  **STOP**' }
+                    ]
+                });
+            }
+        }
+    }
+    return rows;
 }
 
 // generateSampleUser();
