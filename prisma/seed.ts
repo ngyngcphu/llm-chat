@@ -32,7 +32,7 @@ async function generateSampleUser() {
         });
         process.exit(0);
     } catch (err) {
-        throw new Error('Error creating user:', err);
+        throw new Error('Error creating user:', err as Error);
     }
 }
 
@@ -52,7 +52,7 @@ async function parseHandbook() {
                     return;
                 } catch (error) {
                     document.questions = null;
-                    throw new Error('Error generating questions:', error);
+                    throw new Error('Error generating questions:', error as Error);
                 }
             })
         );
@@ -69,7 +69,7 @@ async function parseHandbook() {
                     return;
                 } catch (error) {
                     document.answers = null;
-                    throw new Error('Error generating answers:', error);
+                    throw new Error('Error generating answers:', error as Error);
                 }
             })
         );
@@ -90,7 +90,7 @@ async function parseHandbook() {
                 skipDuplicates: true
             });
         } catch (err) {
-            throw new Error('Error creating conversations:', err);
+            throw new Error('Error creating conversations:', err as Error);
         }
 
         const fineTuningDataset = createFineTuningDataset(documents);
@@ -99,7 +99,7 @@ async function parseHandbook() {
         fineTune();
         process.exit(0);
     } catch (err) {
-        throw new Error('Error parsing handbook:', err);
+        throw new Error('Error parsing handbook:', err as Error);
     }
 }
 

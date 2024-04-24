@@ -1,6 +1,6 @@
 version: "3.5"
 services:
-  postgres:
+  llm-chat-db:
     image: postgres:15
     container_name: postgres
     environment:
@@ -8,15 +8,15 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
-      - postgres_db:/var/lib/postgresql/data
+      - postgres_llm_chat_db:/var/lib/postgresql/data
     restart: always
 
-  fastify:
+  llm-chat-api:
     build:
       context: .
-      dockerfile: ./Dockerfile
-    image: ghcr.io/phucvinh57/fastify-template:0.1.0
-    container_name: fastify_template
+      dockerfile: ./api.Dockerfile
+    image: ghcr.io/ngyngcphu/llm-chat:latest
+    container_name: llm-chat-api
     ports:
       - 8080:8080
     volumes:
@@ -24,6 +24,18 @@ services:
     depends_on:
       - postgres
     restart: always
+
+  llm-chat-ui:
+    build:
+      context: .
+      dockerfile: ./ui.Dockerfile
+    image: ghcr.io/ngyngcphu/llm-chat:latest
+    container_name: llm-chat-ui
+    ports:
+      - 3000:3000
+    volumes:
+      - .env:/app/.env
+    restart: always
   
 volumes:
-  postgres_db:
+  postgres_llm_chat_db:

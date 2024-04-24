@@ -1,6 +1,6 @@
 version: "3.5"
 services:
-  postgres:
+  llm-chat-db:
     image: postgres:15
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
@@ -9,9 +9,9 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - postgres_db:/var/lib/postgresql/data
+      - postgres_llm_chat_db:/var/lib/postgresql/data
     restart: always
 
 volumes:
-  postgres_db:
+  postgres_llm_chat_db:
 

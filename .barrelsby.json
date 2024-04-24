@@ -1,15 +1,15 @@
 {
     "directory": [
-        "./src/handlers",
-        "./src/constants",
-        "./src/dtos/in",
-        "./src/dtos/out",
-        "./src/dtos/common",
-        "./src/configs",
-        "./src/hooks",
-        "./src/interfaces",
-        "./src/repositories",
-        "./src/utils"
+        "./api/handlers",
+        "./api/constants",
+        "./api/dtos/in",
+        "./api/dtos/out",
+        "./api/dtos/common",
+        "./api/configs",
+        "./api/hooks",
+        "./api/interfaces",
+        "./api/repositories",
+        "./api/utils"
     ],
     "exclude": [
         "__mock__",

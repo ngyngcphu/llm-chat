@@ -17,7 +17,7 @@ export async function generateQuestions(content: string): Promise<string> {
         });
         return response.choices[0].text.trim();
     } catch (error) {
-        throw new Error('Error generating questions:', error);
+        throw new Error('Error generating questions:', error as Error);
     }
 }
 
@@ -32,6 +32,6 @@ export async function generateAnswers(document: MarkdownData): Promise<string> {
         });
         return response.choices[0].text.trim();
     } catch (error) {
-        throw new Error('Error generating answers:', error);
+        throw new Error('Error generating answers:', error as Error);
     }
 }

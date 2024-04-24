@@ -87,7 +87,7 @@ export function removeMarkdown(md: string, options?: MarkdownOptions): string {
             // Replace strike through
             .replace(/~(.*?)~/g, '$1');
     } catch (e) {
-        throw new Error('Error removing markdown:', e);
+        throw new Error('Error removing markdown:', e as Error);
     }
     return output;
 }

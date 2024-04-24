@@ -66,6 +66,6 @@ export async function fineTune() {
             await new Promise((resolve) => setTimeout(resolve, 5000));
         }
     } catch (err) {
-        throw new Error('Error fine-tuning:', err);
+        throw new Error('Error fine-tuning:', err as Error);
     }
 }
