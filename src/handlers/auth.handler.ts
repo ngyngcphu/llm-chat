@@ -48,7 +48,13 @@ const signup: Handler<AuthResultDto, { Body: AuthInputDto }> = async (req, res) 
     };
 };
 
+const logout: Handler = async (_req, res) => {
+    res.clearCookie('token');
+    return null;
+};
+
 export const authHandler = {
     login,
-    signup
+    signup,
+    logout
 };

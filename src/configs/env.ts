@@ -12,5 +12,6 @@ export const envs = cleanEnv(process.env, {
     COOKIE_SECRET: str(),
     CORS_WHITE_LIST: json<string[]>({
         default: ['http://localhost:3000', 'http://localhost:8080']
-    })
+    }),
+    OPENAI_API_KEY: str()
 });

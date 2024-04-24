@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { readFile, readdir, writeFile } from 'fs/promises';
 import path from 'path';
-// import { hashSync } from 'bcrypt';
+import { hashSync } from 'bcrypt';
 import grayMatter from 'gray-matter';
 import moment from 'moment';
 import { removeMarkdown } from './utils/removeMarkdown';
@@ -14,24 +14,27 @@ const MD_DIRECTORY_PATH = './prisma/handbook';
 const DEST_FILE_TRAIN = './prisma/qa_train.jsonl';
 
 const prisma = new PrismaClient();
-//const SALT_ROUNDS = 10;
+const SALT_ROUNDS = 10;
 
-// const user = {
-//     email: 'phu.nguyen2310@hcmut.edu.vn',
-//     password: '123456789'
-// };
+const user = {
+    email: 'phu.nguyen2310@hcmut.edu.vn',
+    password: '123456789'
+};
 
-// async function generateSampleUser() {
-//     const hashPassword = hashSync(user.password, SALT_ROUNDS);
-//     const sampleUser = await prisma.user.create({
-//         data: {
-//             email: user.email,
-//             password: hashPassword
-//         }
-//     });
-//     console.log(sampleUser);
-//     process.exit(0);
-// }
+async function generateSampleUser() {
+    const hashPassword = hashSync(user.password, SALT_ROUNDS);
+    try {
+        await prisma.user.create({
+            data: {
+                email: user.email,
+                password: hashPassword
+            }
+        });
+        process.exit(0);
+    } catch (err) {
+        throw new Error('Error creating user:', err);
+    }
+}
 
 async function parseHandbook() {
     try {
@@ -94,6 +97,7 @@ async function parseHandbook() {
         const jsonlContent = fineTuningDataset.map((row) => JSON.stringify(row)).join('\n');
         await writeFile(DEST_FILE_TRAIN, jsonlContent);
         fineTune();
+        process.exit(0);
     } catch (err) {
         throw new Error('Error parsing handbook:', err);
     }
@@ -155,5 +159,5 @@ function createFineTuningDataset(data: MarkdownData[]) {
     return rows;
 }
 
-//generateSampleUser();
+generateSampleUser();
 parseHandbook();

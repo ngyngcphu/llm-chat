@@ -11,7 +11,8 @@ export function createServer(config: ServerConfig): FastifyInstance {
     app.register(import('@fastify/sensible'));
     app.register(import('@fastify/helmet'));
     app.register(import('@fastify/cors'), {
-        origin: envs.CORS_WHITE_LIST
+        origin: envs.CORS_WHITE_LIST,
+        credentials: true
     });
 
     app.register(import('@fastify/cookie'), {
@@ -19,11 +20,8 @@ export function createServer(config: ServerConfig): FastifyInstance {
         hook: 'onRequest'
     } as FastifyCookieOptions);
 
-    // Swagger on production should be turned off
-    if (!envs.isProd) {
-        app.register(import('@fastify/swagger'), swaggerConfig);
-        app.register(import('@fastify/swagger-ui'), swaggerUIConfig);
-    }
+    app.register(import('@fastify/swagger'), swaggerConfig);
+    app.register(import('@fastify/swagger-ui'), swaggerUIConfig);
 
     app.register(authPlugin, { prefix: '/auth' });
     app.register(apiPlugin, { prefix: '/api' });
