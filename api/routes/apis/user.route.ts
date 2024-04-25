@@ -1,7 +1,7 @@
 import type { RouteHandlerMethod } from 'fastify';
-import { UserDto } from 'api/dtos/out';
-import { usersHandler } from 'api/handlers';
-import { createRoutes } from 'api/utils';
+import { UserDto } from '@api/dtos/out';
+import { usersHandler } from '@api/handlers';
+import { createRoutes } from '@api/utils';
 
 export const userPlugin = createRoutes('User', [
     {

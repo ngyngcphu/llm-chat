@@ -1,7 +1,7 @@
 import type { RouteHandlerMethod } from 'fastify';
-import { FineTuneModelDto } from 'api/dtos/out';
-import { fineTuneModelHandler } from 'api/handlers';
-import { createRoutes } from 'api/utils';
+import { FineTuneModelDto } from '@api/dtos/out';
+import { fineTuneModelHandler } from '@api/handlers';
+import { createRoutes } from '@api/utils';
 
 export const fineTuneModelPlugin = createRoutes('Model', [
     {

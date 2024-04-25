@@ -1,7 +1,7 @@
 import OpenAI from 'openai';
-import { envs } from 'api/configs';
-import { FineTuneModelDto } from 'api/dtos/out';
-import { Handler } from 'api/interfaces';
+import { envs } from '@api/configs';
+import { FineTuneModelDto } from '@api/dtos/out';
+import { Handler } from '@api/interfaces';
 
 const openai = new OpenAI({
     apiKey: envs.OPENAI_API_KEY

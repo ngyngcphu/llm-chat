@@ -1,4 +1,4 @@
-import { ObjectId } from 'api/dtos/common';
+import { ObjectId } from '@api/dtos/common';
 import { Static, Type } from '@sinclair/typebox';
 
 export const AuthResultDto = Type.Object({

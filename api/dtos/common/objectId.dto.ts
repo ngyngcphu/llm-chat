@@ -1,4 +1,4 @@
-import { ID_LENGTH } from 'api/constants';
+import { ID_LENGTH } from '@api/constants';
 import { Static, Type } from '@sinclair/typebox';
 
 export const ObjectId = Type.String({

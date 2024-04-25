@@ -1,4 +1,4 @@
-import { envs } from 'api/configs/env';
+import { envs } from '@api/configs/env';
 import { createServer } from './Server';
 
 const PORT = 8080;

@@ -4,12 +4,12 @@
   "license": "ISC",
   "repository": "git@github.com:ngyngcphu/llm-chat.git",
   "description": "",
-  "type": "commonjs",
+  "type": "module",
   "private": true,
   "scripts": {
     "prepare": "is-ci || husky install",
     "bootstrap": "yarn start:docker && yarn && yarn db:migrate && npx prisma db seed",
-    "start": "yarn barrels && cross-env NODE_ENV=development tsnd --ignore-watch node_modules --respawn --transpile-only --max-old-space-size=2048 -r tsconfig-paths/register src/index.ts",
+    "start": "yarn barrels && cross-env NODE_ENV=development tsx watch --ignore node_modules api/index.ts",
     "build": "tsc --project tsconfig.compile.json && tsc-alias",
     "test": "jest --forceExit --selectProjects",
     "barrels": "barrelsby --config .barrelsby.json -q",
@@ -23,7 +23,8 @@
     "format": "prettier '**/*.{ts,js,json}' --write",
     "start:docker": "docker compose -f docker-compose.dev.yml up -d",
     "clean:docker": "docker compose -f docker-compose.dev.yml down --volumes --remove-orphans",
-    "clean:git": "git branch --merged >/tmp/merged-branches && nano /tmp/merged-branches && xargs git branch -D </tmp/merged-branches && git fetch --prune --all"
+    "clean:git": "git branch --merged >/tmp/merged-branches && nano /tmp/merged-branches && xargs git branch -D </tmp/merged-branches && git fetch --prune --all",
+    "api:pull": "openapi-typescript http://localhost:8080/docs/json -o web-ui/openapi-spec.ts"
   },
   "dependencies": {
     "@fastify/cookie": "^9.2.0",
@@ -32,6 +33,8 @@
     "@fastify/sensible": "^5.5.0",
     "@fastify/swagger": "^8.13.0",
     "@fastify/swagger-ui": "^2.0.1",
+    "@heroicons/react": "^2.1.3",
+    "@material-tailwind/react": "^2.1.9",
     "@prisma/client": "^5.7.1",
     "@sinclair/typebox": "^0.32.5",
     "bcrypt": "^5.1.1",
@@ -44,7 +47,13 @@
     "moment": "^2.30.1",
     "natural": "^7.0.5",
     "openai": "^4.38.2",
-    "prisma": "^5.7.1"
+    "openapi-fetch": "^0.9.4",
+    "prisma": "^5.7.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.23.0",
+    "react-toastify": "^10.0.5",
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@commitlint/cli": "^18.4.4",
@@ -52,6 +61,8 @@
     "@types/bcrypt": "^5.0.2",
     "@types/jsonwebtoken": "^9.0.5",
     "@types/node": "^20.10.7",
+    "@types/react": "^18.2.20",
+    "@types/react-dom": "^18.2.25",
     "@typescript-eslint/eslint-plugin": "^6.18.0",
     "@typescript-eslint/parser": "^6.18.0",
     "@vitejs/plugin-react": "^4.2.1",
@@ -63,18 +74,19 @@
     "husky": "^8.0.3",
     "is-ci": "^3.0.1",
     "lint-staged": "^15.2.0",
+    "openapi-typescript": "^7.0.0-next.10",
     "pino-pretty": "^10.3.1",
     "postcss": "^8.4.38",
     "prettier": "^3.1.1",
     "tailwindcss": "^3.4.3",
-    "ts-node-dev": "^2.0.0",
     "tsc-alias": "^1.8.8",
     "tsconfig-paths": "^4.2.0",
+    "tsx": "^4.7.2",
     "typescript": "^5.3.3",
     "vite": "^5.2.10",
     "vite-tsconfig-paths": "^4.3.2"
   },
   "prisma": {
-    "seed": "ts-node prisma/seed.ts"
+    "seed": "tsx prisma/seed.ts"
   }
 }

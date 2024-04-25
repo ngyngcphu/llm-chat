@@ -3,7 +3,7 @@
         "baseUrl": ".",
         "sourceRoot": "api",
         "outDir": "dist",
-        "module": "CommonJS",
+        "module": "ESNext",
         "target": "ESNext",
         "sourceMap": true,
         "allowJs": false,
@@ -11,7 +11,7 @@
         "declaration": false,
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
-        "moduleResolution": "node",
+        "moduleResolution": "Node",
         "isolatedModules": false,
         "suppressImplicitAnyIndexErrors": false,
         "noImplicitAny": true,
@@ -43,10 +43,28 @@
             "@api/hooks": ["api/hooks"],
             "@api/routes": ["api/routes"],
             "@api/interfaces": ["api/interfaces"],
-            "#package.json": ["./package.json"]
+            "#package.json": ["./package.json"],
+
+            "@ui/assets/*": ["web-ui/assets/*"],
+            "@ui/components": ["web-ui/components"],
+            "@ui/constants": ["web-ui/constants"],
+            "@ui/hooks": ["web-ui/hooks"],
+            "@ui/interfaces": ["web-ui/interfaces"],
+            "@ui/layouts": ["web-ui/layouts"],
+            "@ui/pages": ["web-ui/pages"],
+            "@ui/services": ["web-ui/services"],
+            "@ui/states": ["web-ui/states"],
+            "@ui/utils": ["web-ui/utils"],
+            "@api/spec": ["web-ui/openapi-spec.ts"],
         }
     },
-    "include": ["web-ui", "**/*.js", "**/*.ts", "**/*.tsx", "*.cjs", ".commitlintrc"],
+    "ts-node": {
+        "experimentalSpecifierResolution": "node",
+        "transpileOnly": true,
+        "esm": true,
+        "require": ["tsconfig-paths/register"]
+    },
+    "include": ["web-ui", "**/*.js", "**/*.ts", "**/*.tsx", "*.cjs", ".commitlintrc", "prisma/seed.ts"],
     "exclude": ["node_modules", "dist", "coverage"],
     "linterOptions": {
         "exclude": []

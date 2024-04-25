@@ -1,7 +1,7 @@
-import { USER_NOT_FOUND } from 'api/constants';
-import { prisma } from 'api/repositories';
-import { UserDto } from 'api/dtos/out';
-import { Handler } from 'api/interfaces';
+import { USER_NOT_FOUND } from '@api/constants';
+import { prisma } from '@api/repositories';
+import { UserDto } from '@api/dtos/out';
+import { Handler } from '@api/interfaces';
 
 const getUserById: Handler<UserDto> = async (req, res) => {
     const userId = req.userId;

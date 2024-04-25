@@ -1,5 +1,5 @@
-import { envs } from 'api/configs';
-import { INVALID_TOKEN, MUST_LOGIN_FIRST } from 'api/constants';
+import { envs } from '@api/configs';
+import { INVALID_TOKEN, MUST_LOGIN_FIRST } from '@api/constants';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import jwt from 'jsonwebtoken';
 

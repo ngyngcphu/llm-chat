@@ -1,8 +1,8 @@
 import fastify, { FastifyInstance } from 'fastify';
 import type { FastifyCookieOptions } from '@fastify/cookie';
-import { envs, swaggerConfig, swaggerUIConfig, loggerConfig } from 'api/configs';
+import { envs, swaggerConfig, swaggerUIConfig, loggerConfig } from '@api/configs';
 import { apiPlugin, authPlugin } from './routes';
-import { customErrorHandler } from 'api/handlers';
+import { customErrorHandler } from '@api/handlers';
 
 export function createServer(config: ServerConfig): FastifyInstance {
     const app = fastify({ logger: loggerConfig[envs.NODE_ENV] });

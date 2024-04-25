@@ -1,4 +1,4 @@
-import { MIN_EMAIL_LENGTH, MIN_PASSWORD_LENGTH } from 'api/constants';
+import { MIN_EMAIL_LENGTH, MIN_PASSWORD_LENGTH } from '@api/constants';
 import { Static, Type } from '@sinclair/typebox';
 
 export const AuthInputDto = Type.Object(

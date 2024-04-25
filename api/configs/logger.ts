@@ -1,6 +1,7 @@
 import { FastifyError } from 'fastify';
 import type { PinoLoggerOptions } from 'fastify/types/logger';
 import pino from 'pino';
+import { envs } from './env';
 
 const errorSerialize = (err: FastifyError) => {
     const isInternalServerError = !err.statusCode || err.statusCode === 500;
@@ -45,3 +46,5 @@ export const loggerConfig: Record<NodeEnv, PinoLoggerOptions> = {
     },
     test: { serializers: { err: errorSerialize } }
 };
+
+export const logger = pino(loggerConfig[envs.NODE_ENV]);

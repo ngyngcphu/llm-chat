@@ -1,5 +1,5 @@
-import { NOT_FOUND_GENERIC, PrismaErrCode, TRY_LATER } from 'api/constants';
-import { logger } from 'api/utils';
+import { NOT_FOUND_GENERIC, PrismaErrCode, TRY_LATER } from '@api/constants';
+import { logger } from '@api/configs';
 import { FastifyError, FastifyReply, FastifyRequest } from 'fastify';
 
 export function customErrorHandler(err: FastifyError, _req: FastifyRequest, res: FastifyReply) {

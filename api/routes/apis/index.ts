@@ -1,4 +1,4 @@
-import { verifyToken } from 'api/hooks';
+import { verifyToken } from '@api/hooks';
 import { FastifyInstance } from 'fastify';
 import { userPlugin } from './user.route';
 import { fineTuneModelPlugin } from './fineTuneModel.route';

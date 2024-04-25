@@ -9,7 +9,17 @@
         "./api/hooks",
         "./api/interfaces",
         "./api/repositories",
-        "./api/utils"
+        "./api/utils",
+        
+        "./web-ui/components",
+        "./web-ui/constants",
+        "./web-ui/hooks",
+        "./web-ui/interfaces",
+        "./web-ui/layouts",
+        "./web-ui/pages",
+        "./web-ui/services",
+        "./web-ui/states",
+        "./web-ui/utils"
     ],
     "exclude": [
         "__mock__",
