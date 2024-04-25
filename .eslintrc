@@ -2,7 +2,8 @@
   "parser": "@typescript-eslint/parser",
   "extends": [
     "prettier",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react-hooks/recommended"
   ],
   "plugins": ["@typescript-eslint"],
   "parserOptions": {
@@ -18,6 +19,7 @@
     "@typescript-eslint/no-inferrable-types": 0,
     "@typescript-eslint/no-unused-vars": 2,
     "@typescript-eslint/no-var-requires": 0,
-    "eqeqeq": "error"
+    "eqeqeq": "error",
+    "no-console": "error"
   }
 }

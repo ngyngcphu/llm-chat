@@ -3,13 +3,8 @@ type BaseRoute = {
     name: string;
 };
 
-type RoutesList = BaseRoute & {
-    type: 'list';
-    routes: RouteItem[];
-};
-
 type RouteItem = BaseRoute & {
-    type: 'item';
+    type: 'newChat-btn' | 'oldChat-btn';
     path: string;
     element: React.ReactElement;
 };
@@ -19,6 +14,6 @@ type LogoutBtn = BaseRoute & {
     onClick: () => void;
 };
 
-type RouteMenuItem = RouteItem | RoutesList | 'divider' | LogoutBtn;
+type RouteMenuItem = RouteItem | 'divider' | LogoutBtn;
 
 type RouteMenu = RouteMenuItem[];
