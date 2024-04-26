@@ -1,6 +1,7 @@
 import { PlusIcon, PowerIcon } from '@heroicons/react/24/solid';
 import { ChatBubbleLeftIcon } from '@heroicons/react/24/outline';
 import { AppLayout } from '@ui/layouts';
+import { NewChat } from '@ui/pages';
 
 export default function App() {
     return (
@@ -11,7 +12,7 @@ export default function App() {
                     icon: <PlusIcon className='h-5 w-5' />,
                     name: 'New chat',
                     path: '/',
-                    element: <></>
+                    element: <NewChat />
                 },
                 {
                     type: 'oldChat-btn',

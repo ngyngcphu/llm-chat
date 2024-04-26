@@ -1,7 +1,8 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, List, ListItem, ListItemPrefix, Typography } from '@material-tailwind/react';
 import logo from '@ui/assets/dwarves-logo.png';
+import { useSidebarStore } from '@ui/states';
 
 export const AppNavigation: Component<{ menu: RouteMenu }> = ({ menu }) => {
     const navigate = useNavigate();
@@ -23,7 +24,7 @@ export const AppNavigation: Component<{ menu: RouteMenu }> = ({ menu }) => {
         'Run Typescript with Node.js'
     ];
 
-    const [collapseSidebar, setCollapseSidebar] = useState<boolean>(false);
+    const { collapseSidebar, setCollapseSidebar } = useSidebarStore();
 
     const LogoCard: Component = useMemo(
         () => () => (
@@ -39,7 +40,7 @@ export const AppNavigation: Component<{ menu: RouteMenu }> = ({ menu }) => {
                 </Typography>
             </div>
         ),
-        [collapseSidebar]
+        [collapseSidebar, setCollapseSidebar]
     );
 
     return (

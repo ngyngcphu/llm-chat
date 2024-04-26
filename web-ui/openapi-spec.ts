@@ -203,7 +203,10 @@ export interface paths {
                     };
                     content: {
                         'application/json': {
-                            data: string[];
+                            data: {
+                                id: string;
+                                name: string;
+                            }[];
                         };
                     };
                 };

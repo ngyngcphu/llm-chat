@@ -38,6 +38,8 @@
     "@material-tailwind/react": "^2.1.9",
     "@prisma/client": "^5.7.1",
     "@sinclair/typebox": "^0.32.5",
+    "@tanstack/react-query": "^5.32.0",
+    "ai": "^3.0.33",
     "bcrypt": "^5.1.1",
     "dotenv": "^16.3.1",
     "envalid": "^8.0.0",
@@ -59,6 +61,7 @@
   "devDependencies": {
     "@commitlint/cli": "^18.4.4",
     "@commitlint/config-conventional": "^18.4.4",
+    "@tanstack/eslint-plugin-query": "^5.28.11",
     "@types/bcrypt": "^5.0.2",
     "@types/jsonwebtoken": "^9.0.5",
     "@types/node": "^20.10.7",

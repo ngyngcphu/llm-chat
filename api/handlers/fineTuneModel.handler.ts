@@ -10,8 +10,9 @@ const openai = new OpenAI({
 const getAll: Handler<FineTuneModelDto> = async (_, res) => {
     const fineTuneModels = await openai.fineTuning.jobs.list();
     const fineTuneModelIds = fineTuneModels.data.filter((model) => model.status === 'succeeded').map((model) => model.fine_tuned_model);
+    const response = fineTuneModelIds.map((id) => ({ id: id, name: id ? id.split('::')[1] : '' }));
 
-    return res.send({ data: fineTuneModelIds });
+    return res.send({ data: response });
 };
 
 export const fineTuneModelHandler = {
