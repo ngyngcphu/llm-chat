@@ -66,8 +66,5 @@
     },
     "include": ["web-ui", "**/*.js", "**/*.ts", "**/*.tsx", "*.cjs", ".commitlintrc", "prisma/seed.ts"],
     "exclude": ["node_modules", "dist", "coverage"],
-    "linterOptions": {
-        "exclude": []
-    },
     "references": [{ "path": "./tsconfig.node.json" }]
 }

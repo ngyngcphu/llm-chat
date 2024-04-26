@@ -20,7 +20,6 @@ export default function App() {
                     path: '/chat/:id',
                     element: <></>
                 },
-                'divider',
                 {
                     type: 'logout-btn',
                     icon: <PowerIcon className='h-5 w-5' />,

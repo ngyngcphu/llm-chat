@@ -14,6 +14,6 @@ type LogoutBtn = BaseRoute & {
     onClick: () => void;
 };
 
-type RouteMenuItem = RouteItem | 'divider' | LogoutBtn;
+type RouteMenuItem = RouteItem | LogoutBtn;
 
 type RouteMenu = RouteMenuItem[];

@@ -6,7 +6,7 @@ export const AppLayout: Component<{ menu: RouteMenu }> = ({ menu }) => {
     const routeItems = useMemo(() => {
         const items: { path: string; element: React.ReactElement }[] = [];
         for (const menuItem of menu) {
-            if (menuItem === 'divider' || menuItem.type === 'logout-btn') continue;
+            if (menuItem.type === 'logout-btn') continue;
             items.push({ path: menuItem.path, element: menuItem.element });
         }
         return items;
