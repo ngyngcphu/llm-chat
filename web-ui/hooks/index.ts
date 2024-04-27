@@ -3,4 +3,5 @@
  */
 
 export * from './useFineTuneModelQuery.hook';
+export * from './useSampleConversation.hook';
 export * from './useScreenSize';

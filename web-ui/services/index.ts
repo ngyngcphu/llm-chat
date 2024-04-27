@@ -4,3 +4,4 @@
 
 export * from './common';
 export * from './fineTuneModel.service';
+export * from './sampleConversation.service';

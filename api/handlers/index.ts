@@ -5,4 +5,5 @@
 export * from './auth.handler';
 export * from './error.handler';
 export * from './fineTuneModel.handler';
+export * from './sampleQuestion.handler';
 export * from './user.handler';

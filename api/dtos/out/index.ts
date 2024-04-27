@@ -4,4 +4,5 @@
 
 export * from './auth.dto';
 export * from './fineTuneModel.dto';
+export * from './sampleConversation.dto';
 export * from './user.dto';

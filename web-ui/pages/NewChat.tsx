@@ -1,16 +1,7 @@
 //import { useChat } from 'ai/react';
 
-import {
-    Avatar,
-    Button,
-    List,
-    ListItem,
-    ListItemPrefix,
-    Popover,
-    PopoverContent,
-    PopoverHandler,
-    Typography
-} from '@material-tailwind/react';
+import { Button, List, ListItem, ListItemPrefix, Popover, PopoverContent, PopoverHandler, Typography } from '@material-tailwind/react';
+import { ChevronDownIcon, InformationCircleIcon } from '@heroicons/react/24/outline';
 import { useFineTuneModelQuery } from '@ui/hooks';
 
 export const NewChat: Component = () => {
@@ -20,23 +11,25 @@ export const NewChat: Component = () => {
     } = useFineTuneModelQuery();
 
     return (
-        <Popover placement='bottom-end'>
+        <Popover placement='bottom-start'>
             <PopoverHandler>
-                <Button variant='text' className='normal-case text-lg'>
-                    {listFineTuneModels ? listFineTuneModels.data[0].name : 'Loading...'}
+                <Button variant='text' className='normal-case text-lg flex items-center gap-1'>
+                    <span>
+                        {listFineTuneModels ? (
+                            <span>
+                                Model <span className='text-base font-medium text-gray-500'>{listFineTuneModels.data[0].name}</span>
+                            </span>
+                        ) : (
+                            'Loading...'
+                        )}
+                    </span>
+                    <ChevronDownIcon className='h-4 w-4' />
                 </Button>
             </PopoverHandler>
             <PopoverContent className='w-72'>
-                <div className='mb-4 flex items-center gap-4 border-b border-blue-gray-50 pb-4'>
-                    <Avatar src='https://docs.material-tailwind.com/img/team-4.jpg' alt='tania andrew' />
-                    <div>
-                        <Typography variant='h6' color='blue-gray'>
-                            Tania Andrew
-                        </Typography>
-                        <Typography variant='small' color='gray' className='font-medium text-blue-gray-500'>
-                            General Manager
-                        </Typography>
-                    </div>
+                <div className='mb-4 flex items-center justify-between border-b border-blue-gray-50'>
+                    <Typography variant='paragraph'> Model</Typography>
+                    <InformationCircleIcon strokeWidth={1.5} className='h-5 w-5' />
                 </div>
                 <List className='p-0'>
                     <a href='#' className='text-initial font-medium text-blue-gray-500'>
