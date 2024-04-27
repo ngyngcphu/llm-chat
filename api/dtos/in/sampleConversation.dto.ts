@@ -1,7 +1,8 @@
 import { Static, Type } from '@sinclair/typebox';
 
-export const SampleQuestionDto = Type.Object({
-    data: Type.Array(Type.String())
+export const SampleQuestionIdDto = Type.Object({
+    fineTuneModelId: Type.String(),
+    questionId: Type.String()
 });
 
-export type SampleQuestionDto = Static<typeof SampleQuestionDto>;
+export type SampleQuestionIdDto = Static<typeof SampleQuestionIdDto>;

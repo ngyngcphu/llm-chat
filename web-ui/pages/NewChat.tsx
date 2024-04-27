@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { useChat } from 'ai/react';
 import Textarea from 'react-textarea-autosize';
 import {
@@ -17,6 +18,7 @@ import logo from '@ui/assets/dwarves-logo.png';
 import { useFineTuneModelQuery, useSampleConversationQuery } from '@ui/hooks';
 
 export const NewChat: Component = () => {
+    const queryClient = useQueryClient();
     const { messages, input, handleInputChange, handleSubmit } = useChat();
     const {
         listFineTuneModels: { data: listFineTuneModels }
@@ -123,9 +125,16 @@ export const NewChat: Component = () => {
                         </div>
                         <div className='grid grid-cols-2 gap-2 p-7 sm:p-10'>
                             {listQuestions ? (
-                                listQuestions.data.map((question, i) => (
-                                    <Button key={i} variant='outlined' className='normal-case text-left text-sm'>
-                                        {question.content.slice(2).trim()}
+                                listQuestions.data.map((data, i) => (
+                                    <Button
+                                        key={i}
+                                        variant='outlined'
+                                        className='normal-case text-left text-sm'
+                                        onClick={() => {
+                                            queryClient.setQueryData(['currentSampleQuestion'], data);
+                                        }}
+                                    >
+                                        {data.question}
                                     </Button>
                                 ))
                             ) : (

@@ -251,7 +251,8 @@ export interface paths {
                         'application/json': {
                             data: {
                                 id: string;
-                                content: string;
+                                question: string;
+                                role: 'SYSTEM' | 'USER' | 'ASSISTANT';
                             }[];
                         };
                     };
@@ -260,6 +261,54 @@ export interface paths {
         };
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/api/sample/answer': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Get the answer of a sample question
+         * @description Get the answer of a sample question
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    'application/json': {
+                        questionId: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': {
+                            answer: string;
+                            role: 'SYSTEM' | 'USER' | 'ASSISTANT';
+                        };
+                    };
+                };
+            };
+        };
         delete?: never;
         options?: never;
         head?: never;
