@@ -15,34 +15,93 @@ model User {
   id       String    @id @default(cuid())
   email    String    @unique @db.VarChar(50)
   password String
+  name     String    @db.VarChar(50)
   sections Section[]
 }
 
-model Conversation {
-  id        String   @id @default(cuid())
+model Context {
+  id        String           @id @default(cuid())
   title     String?
   date      Int?
-  authors   String[] @db.VarChar(255)
-  tags      String[] @db.VarChar(255)
+  authors   String[]         @db.VarChar(255)
+  tags      String[]         @db.VarChar(255)
   tokens    Int?
-  content   String?  @db.Text
-  questions String?  @db.Text
-  answers   String?  @db.Text
+  content   String?          @db.Text
+  questions SampleQuestion[]
+  answers   SampleAnswer[]
 }
 
-model Chat {
-  id        String  @id @default(cuid())
-  question  String  @db.Text
-  answer    String  @db.Text
-  date      Int
-  section   Section @relation(fields: [sectionId], references: [id])
-  sectionId String
+model SampleQuestion {
+  id         String        @id @default(cuid())
+  role       Role          @default(USER)
+  content    String        @db.Text
+  context    Context       @relation(fields: [contextId], references: [id])
+  contextId  String
+  answer     SampleAnswer?
+  sampleChat SampleChat?
+}
+
+model SampleAnswer {
+  id               String         @id @default(cuid())
+  role             Role           @default(ASSISTANT)
+  content          String         @db.Text
+  context          Context        @relation(fields: [contextId], references: [id])
+  contextId        String
+  sampleQuestion   SampleQuestion @relation(fields: [sampleQuestionId], references: [id])
+  sampleQuestionId String         @unique
+  sampleChat       SampleChat?
+}
+
+model SampleChat {
+  id         String         @id @default(cuid())
+  question   SampleQuestion @relation(fields: [questionId], references: [id])
+  questionId String         @unique
+  answer     SampleAnswer   @relation(fields: [answerId], references: [id])
+  answerId   String         @unique
+  date       Int
+  section    Section        @relation(fields: [sectionId], references: [id])
+  sectionId  String
+}
+
+model FineTuneQuestion {
+  id           String          @id @default(cuid())
+  role         Role            @default(USER)
+  content      String          @db.Text
+  answer       FineTuneAnswer?
+  fineTuneChat FineTuneChat?
+}
+
+model FineTuneAnswer {
+  id                 String           @id @default(cuid())
+  role               Role             @default(ASSISTANT)
+  content            String           @db.Text
+  fineTuneQuestion   FineTuneQuestion @relation(fields: [fineTuneQuestionId], references: [id])
+  fineTuneQuestionId String           @unique
+  fineTuneChat       FineTuneChat?
+}
+
+model FineTuneChat {
+  id         String           @id @default(cuid())
+  question   FineTuneQuestion @relation(fields: [questionId], references: [id])
+  questionId String           @unique
+  answer     FineTuneAnswer   @relation(fields: [answerId], references: [id])
+  answerId   String           @unique
+  date       Int
+  section    Section          @relation(fields: [sectionId], references: [id])
+  sectionId  String
 }
 
 model Section {
-  id     String @id @default(cuid())
-  title  String
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
-  chats  Chat[]
+  id            String         @id @default(cuid())
+  title         String?
+  user          User           @relation(fields: [userId], references: [id])
+  userId        String
+  fineTuneChats FineTuneChat[]
+  sampleChats   SampleChat[]
+}
+
+enum Role {
+  SYSTEM
+  USER
+  ASSISTANT
 }

@@ -3,11 +3,11 @@ import { prisma } from '@api/repositories';
 import { cookieOptions, LOGIN_FAIL, SALT_ROUNDS, USER_NOT_FOUND } from '@api/constants';
 import jwt from 'jsonwebtoken';
 import { envs } from '@api/configs';
-import { AuthInputDto } from '@api/dtos/in';
+import { SignInInputDto, SignUpInputDto } from '@api/dtos/in';
 import { AuthResultDto } from '@api/dtos/out';
 import { Handler } from '@api/interfaces';
 
-const login: Handler<AuthResultDto, { Body: AuthInputDto }> = async (req, res) => {
+const login: Handler<AuthResultDto, { Body: SignInInputDto }> = async (req, res) => {
     const user = await prisma.user.findUnique({
         select: {
             id: true,
@@ -30,12 +30,13 @@ const login: Handler<AuthResultDto, { Body: AuthInputDto }> = async (req, res) =
     };
 };
 
-const signup: Handler<AuthResultDto, { Body: AuthInputDto }> = async (req, res) => {
+const signup: Handler<AuthResultDto, { Body: SignUpInputDto }> = async (req, res) => {
     const hashPassword = await hash(req.body.password, SALT_ROUNDS);
     const user = await prisma.user.create({
         data: {
             email: req.body.email,
-            password: hashPassword
+            password: hashPassword,
+            name: req.body.name
         }
     });
 

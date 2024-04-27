@@ -1,6 +1,6 @@
 import type { RouteHandlerMethod } from 'fastify';
 import { Type } from '@sinclair/typebox';
-import { AuthInputDto } from 'api/dtos/in';
+import { SignInInputDto, SignUpInputDto } from 'api/dtos/in';
 import { AuthResultDto } from 'api/dtos/out';
 import { authHandler } from 'api/handlers';
 import { createRoutes } from 'api/utils';
@@ -10,7 +10,7 @@ export const authPlugin = createRoutes('Auth', [
         method: 'POST',
         url: '/login',
         schema: {
-            body: AuthInputDto,
+            body: SignInInputDto,
             response: {
                 200: AuthResultDto
             }
@@ -21,7 +21,7 @@ export const authPlugin = createRoutes('Auth', [
         method: 'POST',
         url: '/signup',
         schema: {
-            body: AuthInputDto,
+            body: SignUpInputDto,
             response: {
                 200: AuthResultDto
             }

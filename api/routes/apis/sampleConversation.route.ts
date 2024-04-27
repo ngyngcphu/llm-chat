@@ -1,5 +1,5 @@
 import type { RouteHandlerMethod } from 'fastify';
-import { SampleConversationDto } from '@api/dtos/out';
+import { SampleQuestionDto } from '@api/dtos/out';
 import { sampleConversationHandler } from '@api/handlers';
 import { createRoutes } from '@api/utils';
 
@@ -11,7 +11,7 @@ export const sampleConversationPlugin = createRoutes('Sample Conversation', [
             summary: 'Get four sample questions',
             description: 'Get four sample questions',
             response: {
-                200: SampleConversationDto
+                200: SampleQuestionDto
             }
         },
         handler: sampleConversationHandler.getFourQuestions as RouteHandlerMethod

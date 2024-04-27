@@ -1,10 +1,10 @@
 import { Handler } from '@api/interfaces';
-import { SampleConversationDto } from '@api/dtos/out';
+import { SampleQuestionDto } from '@api/dtos/out';
 import { prisma } from '@api/repositories';
 
-const getFourQuestions: Handler<SampleConversationDto> = async (_, res) => {
-    const questions: { questions: string }[] = await prisma.$queryRaw`SELECT "questions" FROM "Conversation" ORDER BY RANDOM() LIMIT 1`;
-    const results = questions[0].questions.split('\n').slice(0, 4);
+const getFourQuestions: Handler<SampleQuestionDto> = async (_, res) => {
+    const results: { id: string; content: string }[] =
+        await prisma.$queryRaw`SELECT "id", "content" FROM "SampleQuestion" ORDER BY RANDOM() LIMIT 4`;
     return res.send({ data: results });
 };
 

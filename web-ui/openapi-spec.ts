@@ -74,11 +74,13 @@ export interface paths {
                 content: {
                     /** @example {
                      *       "email": "phu.nguyen2310@hcmut.edu.vn",
-                     *       "password": "123456789"
+                     *       "password": "123456789",
+                     *       "name": "Nguyen Ngoc Phu"
                      *     } */
                     'application/json': {
                         email: string;
                         password: string;
+                        name: string;
                     };
                 };
             };
@@ -247,7 +249,10 @@ export interface paths {
                     };
                     content: {
                         'application/json': {
-                            data: string[];
+                            data: {
+                                id: string;
+                                content: string;
+                            }[];
                         };
                     };
                 };
