@@ -1,7 +1,7 @@
 import OpenAI from 'openai';
 import moment from 'moment';
 import { envs } from '@api/configs';
-import { SYSTEM_PROMPT } from '@api/constants';
+import { SYSTEM_PROMPT, SYSTEM_PROMPT_MARKDOWN } from '@api/constants';
 import { FineTuneQuestionRequestBodyDto } from '@api/dtos/in';
 import { AnswerResultDto } from '@api/dtos/out';
 import { Handler } from '@api/interfaces';
@@ -20,7 +20,7 @@ const getAnswer: Handler<AnswerResultDto, { Body: FineTuneQuestionRequestBodyDto
     const answerGenerator = await openai.chat.completions.create({
         model: req.body.fineTuneModelId,
         messages: [
-            { role: 'system', content: SYSTEM_PROMPT },
+            { role: 'system', content: SYSTEM_PROMPT_MARKDOWN },
             { role: 'user', content: req.body.questionContent }
         ],
         stop: '  **STOP**',

@@ -4,6 +4,7 @@
 
 export * from './useFineTuneConversationMutation.hook';
 export * from './useFineTuneModelQuery.hook';
+export * from './useMarkdownProcessor';
 export * from './useSampleConversationMutation.hook';
 export * from './useSampleConversationQuery.hook';
 export * from './useScreenSize';
