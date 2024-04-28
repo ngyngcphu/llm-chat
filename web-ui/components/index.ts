@@ -6,4 +6,5 @@ export * from './AppNavigation';
 export * from './AppSkeleton';
 export * from './AssistantMessage';
 export * from './Message';
+export * from './ModelOption';
 export * from './UserMessage';
