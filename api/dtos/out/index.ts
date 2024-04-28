@@ -3,6 +3,7 @@
  */
 
 export * from './auth.dto';
+export * from './chatHistory.dto';
 export * from './conversation.dto';
 export * from './fineTuneModel.dto';
 export * from './user.dto';

@@ -3,6 +3,7 @@
  */
 
 export * from './auth.handler';
+export * from './chatHistory.handler';
 export * from './error.handler';
 export * from './fineTuneConversation.handler';
 export * from './fineTuneModel.handler';

@@ -4,6 +4,7 @@ import { userPlugin } from './user.route';
 import { fineTuneModelPlugin } from './fineTuneModel.route';
 import { sampleConversationPlugin } from './sampleConversation.route';
 import { fineTuneConversationPlugin } from './fineTuneConversation.route';
+import { chatHistoryPlugin } from './chatHistory.route';
 
 export async function apiPlugin(app: FastifyInstance) {
     // Why use decorator: https://fastify.dev/docs/latest/Reference/Decorators/#decorators
@@ -14,4 +15,5 @@ export async function apiPlugin(app: FastifyInstance) {
     app.register(fineTuneModelPlugin, { prefix: '/models' });
     app.register(sampleConversationPlugin, { prefix: '/sample' });
     app.register(fineTuneConversationPlugin, { prefix: '/fine-tune' });
+    app.register(chatHistoryPlugin, { prefix: '/history' });
 }

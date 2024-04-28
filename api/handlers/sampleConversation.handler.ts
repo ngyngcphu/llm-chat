@@ -24,6 +24,8 @@ const getAnswer: Handler<AnswerResultDto, { Body: SampleQuestionRequestBodyDto }
         where: { id: req.body.questionId },
         select: { context: { select: { title: true } }, content: true, role: true }
     });
+    if (!contextTitle) return res.badRequest('Question not found');
+
     let title = contextTitle?.context.title ?? '';
 
     const answer = await prisma.sampleAnswer.findUnique({
@@ -34,6 +36,7 @@ const getAnswer: Handler<AnswerResultDto, { Body: SampleQuestionRequestBodyDto }
         },
         where: { sampleQuestionId: req.body.questionId }
     });
+    if (!answer) return res.notFound('Answer not found');
 
     let sectionId = req.body.sectionId ?? '';
     if (!req.body.sectionId) {

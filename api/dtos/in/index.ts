@@ -3,4 +3,5 @@
  */
 
 export * from './auth.dto';
+export * from './chatHistory.dto';
 export * from './conversation.dto';
