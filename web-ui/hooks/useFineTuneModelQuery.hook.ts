@@ -10,6 +10,6 @@ export function useFineTuneModelQuery() {
     });
 
     return {
-        listFineTuneModels: listFineTuneModels
+        listFineTuneModels: listFineTuneModels.data
     };
 }

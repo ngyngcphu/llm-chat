@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import Textarea from 'react-textarea-autosize';
+import { useQueryClient } from '@tanstack/react-query';
 import {
     Button,
     IconButton,
@@ -23,14 +24,11 @@ import {
 } from '@ui/hooks';
 
 export const NewChat: Component = () => {
+    const queryClient = useQueryClient();
     const navigate = useNavigate();
 
-    const {
-        listFineTuneModels: { data: listFineTuneModels }
-    } = useFineTuneModelQuery();
-    const {
-        listQuestions: { data: listQuestions }
-    } = useSampleConversationQuery();
+    const { listFineTuneModels } = useFineTuneModelQuery();
+    const { listQuestions } = useSampleConversationQuery();
     const { createOrUpdateSectionBySample } = useSampleConversationMutation();
     const { createOrUpdateSectionByFineTune } = useFineTuneConversationMutation();
 
@@ -50,6 +48,7 @@ export const NewChat: Component = () => {
             ...data,
             fineTuneModelId: listFineTuneModels.data[0].id
         });
+        queryClient.setQueryData(['currentSectionId'], response.sectionId);
         navigate(`/chat/${response.sectionId}`);
     };
 
@@ -142,6 +141,7 @@ export const NewChat: Component = () => {
                                             fineTuneModelId: listFineTuneModels?.data[0]?.id ?? '',
                                             questionId: data.id
                                         });
+                                        queryClient.setQueryData(['currentSectionId'], response.sectionId);
                                         navigate(`/chat/${response.sectionId}`);
                                     }}
                                 >
