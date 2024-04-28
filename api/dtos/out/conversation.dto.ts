@@ -1,7 +1,7 @@
 import { Role } from '@prisma/client';
 import { Static, Type } from '@sinclair/typebox';
 
-export const SampleQuestionDto = Type.Object({
+export const SampleQuestionResultDto = Type.Object({
     data: Type.Array(
         Type.Object({
             id: Type.String(),
@@ -11,11 +11,11 @@ export const SampleQuestionDto = Type.Object({
     )
 });
 
-export const SampleAnswerDto = Type.Object({
+export const AnswerResultDto = Type.Object({
     sectionId: Type.String(),
     content: Type.String(),
     role: Type.Enum(Role)
 });
 
-export type SampleQuestionDto = Static<typeof SampleQuestionDto>;
-export type SampleAnswerDto = Static<typeof SampleAnswerDto>;
+export type SampleQuestionResultDto = Static<typeof SampleQuestionResultDto>;
+export type AnswerResultDto = Static<typeof AnswerResultDto>;

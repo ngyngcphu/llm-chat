@@ -318,6 +318,57 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/api/fine-tune/answer': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Get the answer of a fine-tune question
+         * @description Get the answer of a fine-tune question
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    'application/json': {
+                        sectionId?: string;
+                        fineTuneModelId: string;
+                        questionContent: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': {
+                            sectionId: string;
+                            content: string;
+                            role: 'SYSTEM' | 'USER' | 'ASSISTANT';
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {

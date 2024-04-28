@@ -25,7 +25,7 @@ export const NewChat: Component = () => {
     const {
         listQuestions: { data: listQuestions }
     } = useSampleConversationQuery();
-    const { createOrUpdateSection } = useSampleConversationMutation();
+    const { createOrUpdateSectionBySample } = useSampleConversationMutation();
 
     return (
         <>
@@ -112,7 +112,7 @@ export const NewChat: Component = () => {
                                     variant='outlined'
                                     className='normal-case text-left text-sm'
                                     onClick={async () => {
-                                        const response = await createOrUpdateSection.mutateAsync({
+                                        const response = await createOrUpdateSectionBySample.mutateAsync({
                                             fineTuneModelId: listFineTuneModels?.data[0]?.id ?? '',
                                             questionId: data.id
                                         });

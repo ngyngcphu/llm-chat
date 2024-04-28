@@ -3,4 +3,4 @@
  */
 
 export * from './auth.dto';
-export * from './sampleConversation.dto';
+export * from './conversation.dto';

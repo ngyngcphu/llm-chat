@@ -3,5 +3,6 @@
  */
 
 export * from './common';
+export * from './fineTuneConversation.service';
 export * from './fineTuneModel.service';
 export * from './sampleConversation.service';
