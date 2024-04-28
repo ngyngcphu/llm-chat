@@ -251,7 +251,7 @@ export interface paths {
                         'application/json': {
                             data: {
                                 id: string;
-                                question: string;
+                                content: string;
                                 role: 'SYSTEM' | 'USER' | 'ASSISTANT';
                             }[];
                         };
@@ -290,6 +290,8 @@ export interface paths {
             requestBody: {
                 content: {
                     'application/json': {
+                        sectionId?: string;
+                        fineTuneModelId: string;
                         questionId: string;
                     };
                 };
@@ -302,7 +304,8 @@ export interface paths {
                     };
                     content: {
                         'application/json': {
-                            answer: string;
+                            sectionId: string;
+                            content: string;
                             role: 'SYSTEM' | 'USER' | 'ASSISTANT';
                         };
                     };

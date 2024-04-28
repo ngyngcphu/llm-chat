@@ -15,7 +15,7 @@ const openai = new OpenAI({
 const getFourQuestions: Handler<SampleQuestionDto> = async (_, res) => {
     const results: { id: string; content: string; role: Role }[] =
         await prisma.$queryRaw`SELECT "id", "content", "role" FROM "SampleQuestion" ORDER BY RANDOM() LIMIT 4`;
-    const removeBulletInResults = results.map((result) => ({ id: result.id, question: result.content.slice(2).trim(), role: result.role }));
+    const removeBulletInResults = results.map((result) => ({ id: result.id, content: result.content.slice(2).trim(), role: result.role }));
     return res.send({ data: removeBulletInResults });
 };
 
@@ -52,20 +52,38 @@ const getAnswer: Handler<SampleAnswerDto, { Body: SampleQuestionIdDto }> = async
         where: { sampleQuestionId: req.body.questionId }
     });
 
-    await prisma.section.create({
-        data: {
-            title,
-            userId: req.userId,
-            sampleChats: {
-                create: {
-                    questionId: req.body.questionId,
-                    answerId: answer?.id ?? '',
-                    date: moment().unix()
+    let sectionId = req.body.sectionId ?? '';
+    if (!req.body.sectionId) {
+        const createdSection = await prisma.section.create({
+            data: {
+                title,
+                userId: req.userId,
+                sampleChats: {
+                    create: {
+                        questionId: req.body.questionId,
+                        answerId: answer?.id ?? '',
+                        date: moment().unix()
+                    }
+                }
+            },
+            select: { id: true }
+        });
+        sectionId = createdSection.id;
+    } else {
+        await prisma.section.update({
+            where: { id: req.body.sectionId },
+            data: {
+                sampleChats: {
+                    create: {
+                        questionId: req.body.questionId,
+                        answerId: answer?.id ?? '',
+                        date: moment().unix()
+                    }
                 }
             }
-        }
-    });
-    return res.send({ answer: answer?.content.slice(2).trim() ?? '', role: answer?.role });
+        });
+    }
+    return res.send({ content: answer?.content.slice(2).trim() ?? '', role: answer?.role, sectionId: sectionId });
 };
 
 export const sampleConversationHandler = {

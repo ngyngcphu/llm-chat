@@ -1,7 +1,7 @@
 import { PlusIcon, PowerIcon } from '@heroicons/react/24/solid';
 import { ChatBubbleLeftIcon } from '@heroicons/react/24/outline';
 import { AppLayout } from '@ui/layouts';
-import { NewChat } from '@ui/pages';
+import { NewChat, OldChat } from '@ui/pages';
 
 export default function App() {
     return (
@@ -19,7 +19,7 @@ export default function App() {
                     icon: <ChatBubbleLeftIcon className='h-5 w-5' />,
                     name: 'Recent chat',
                     path: '/chat/:id',
-                    element: <></>
+                    element: <OldChat />
                 },
                 {
                     type: 'logout-btn',

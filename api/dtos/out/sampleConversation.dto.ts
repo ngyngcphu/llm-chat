@@ -5,14 +5,15 @@ export const SampleQuestionDto = Type.Object({
     data: Type.Array(
         Type.Object({
             id: Type.String(),
-            question: Type.String(),
+            content: Type.String(),
             role: Type.Enum(Role)
         })
     )
 });
 
 export const SampleAnswerDto = Type.Object({
-    answer: Type.String(),
+    sectionId: Type.String(),
+    content: Type.String(),
     role: Type.Enum(Role)
 });
 

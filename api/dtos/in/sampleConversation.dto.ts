@@ -1,6 +1,7 @@
 import { Static, Type } from '@sinclair/typebox';
 
 export const SampleQuestionIdDto = Type.Object({
+    sectionId: Type.Optional(Type.String()),
     fineTuneModelId: Type.String(),
     questionId: Type.String()
 });

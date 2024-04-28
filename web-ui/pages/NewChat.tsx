@@ -1,5 +1,4 @@
-import { useQueryClient } from '@tanstack/react-query';
-import { useChat } from 'ai/react';
+import { useNavigate } from 'react-router-dom';
 import Textarea from 'react-textarea-autosize';
 import {
     Button,
@@ -15,17 +14,18 @@ import {
 } from '@material-tailwind/react';
 import { ChevronDownIcon, InformationCircleIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline';
 import logo from '@ui/assets/dwarves-logo.png';
-import { useFineTuneModelQuery, useSampleConversationQuery } from '@ui/hooks';
+import { useFineTuneModelQuery, useSampleConversationMutation, useSampleConversationQuery } from '@ui/hooks';
 
 export const NewChat: Component = () => {
-    const queryClient = useQueryClient();
-    const { messages, input, handleInputChange, handleSubmit } = useChat();
+    const navigate = useNavigate();
+
     const {
         listFineTuneModels: { data: listFineTuneModels }
     } = useFineTuneModelQuery();
     const {
         listQuestions: { data: listQuestions }
     } = useSampleConversationQuery();
+    const { createOrUpdateSection } = useSampleConversationMutation();
 
     return (
         <>
@@ -99,57 +99,38 @@ export const NewChat: Component = () => {
                 </PopoverContent>
             </Popover>
             <div className='flex flex-col items-center justify-between'>
-                {messages.length > 0 ? (
-                    messages.map((message, i) => (
-                        <div
-                            key={i}
-                            className={
-                                `flex w-full items-center justify-center border-b border-gray-200 py-8` + message.role === 'user'
-                                    ? ' bg-white'
-                                    : ' bg-gray-100'
-                            }
-                        >
-                            <div className='flex w-full max-w-screen-md items-start space-x-4 px-5 sm:px-0'>
-                                <div className={message.role === 'assistant' ? ' bg-white' : ' bg-black p-1.5 text-white'}>
-                                    {message.role === 'user' ? <></> : <></>}
-                                </div>
-                                <div className='prose prose-p:leading-relaxed mt-1 w-full break-words'>{message.content}</div>
-                            </div>
-                        </div>
-                    ))
-                ) : (
-                    <div className='sm:mx-0 mx-5 mt-20 max-w-screen-md rounded-md sm:w-full'>
-                        <div className='flex flex-col items-center space-y-4 p-7 sm:p-10'>
-                            <img src={logo} alt='brand' className='h-10 w-10' />
-                            <Typography variant='h4'>How can I help you today?</Typography>
-                        </div>
-                        <div className='grid grid-cols-2 gap-2 p-7 sm:p-10'>
-                            {listQuestions ? (
-                                listQuestions.data.map((data, i) => (
-                                    <Button
-                                        key={i}
-                                        variant='outlined'
-                                        className='normal-case text-left text-sm'
-                                        onClick={() => {
-                                            queryClient.setQueryData(['currentSampleQuestion'], data);
-                                        }}
-                                    >
-                                        {data.question}
-                                    </Button>
-                                ))
-                            ) : (
-                                <div className='grid col-span-2 justify-items-center items-center'>
-                                    <Spinner color='pink' className='h-12 w-12' />
-                                </div>
-                            )}
-                        </div>
+                <div className='sm:mx-0 mx-5 mt-20 max-w-screen-md rounded-md sm:w-full'>
+                    <div className='flex flex-col items-center space-y-4 p-7 sm:p-10'>
+                        <img src={logo} alt='brand' className='h-10 w-10' />
+                        <Typography variant='h4'>How can I help you today?</Typography>
                     </div>
-                )}
+                    <div className='grid grid-cols-2 gap-2 p-7 sm:p-10'>
+                        {listQuestions ? (
+                            listQuestions.data.map((data, i) => (
+                                <Button
+                                    key={i}
+                                    variant='outlined'
+                                    className='normal-case text-left text-sm'
+                                    onClick={async () => {
+                                        const response = await createOrUpdateSection.mutateAsync({
+                                            fineTuneModelId: listFineTuneModels?.data[0]?.id ?? '',
+                                            questionId: data.id
+                                        });
+                                        navigate(`/chat/${response.sectionId}`);
+                                    }}
+                                >
+                                    {data.content}
+                                </Button>
+                            ))
+                        ) : (
+                            <div className='grid col-span-2 justify-items-center items-center'>
+                                <Spinner color='pink' className='h-12 w-12' />
+                            </div>
+                        )}
+                    </div>
+                </div>
                 <div className='fixed bottom-0 flex w-full flex-col items-center space-y-3 bg-gradient-to-b from-transparent via-gray-100 to-gray-100 p-5 pb-3 sm:px-0'>
-                    <form
-                        onSubmit={handleSubmit}
-                        className='fixed bottom-0 mb-8 w-full max-w-screen-md rounded-xl border border-gray-500 bg-white px-4 pb-2 pt-3 shadow-lg sm:pb-3 sm:pt-4'
-                    >
+                    <form className='fixed bottom-0 mb-8 w-full max-w-screen-md rounded-xl border border-gray-500 bg-white px-4 pb-2 pt-3 shadow-lg sm:pb-3 sm:pt-4'>
                         <Textarea
                             tabIndex={0}
                             required
@@ -157,15 +138,12 @@ export const NewChat: Component = () => {
                             maxRows={10}
                             autoFocus
                             placeholder='Send a message'
-                            value={input}
-                            onChange={handleInputChange}
                             spellCheck={false}
                             className='w-full pr-10 focus:outline-none'
                         />
                         <IconButton
                             size='sm'
                             color='pink'
-                            disabled={!input}
                             className='!absolute bottom-3 right-3 my-auto flex h-8 w-8 items-center justify-center rounded-md transition-all'
                         >
                             <PaperAirplaneIcon className='w-5 h-5' />

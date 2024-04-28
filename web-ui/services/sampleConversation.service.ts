@@ -6,8 +6,14 @@ export const sampleConversationService = {
         if (data !== undefined) return data;
         throw (error as ResponseError).message;
     },
-    getAnswer: async (questionId: string) => {
-        const { data, error } = await apiClient.POST('/api/sample/answer', { body: { questionId } });
+    getAnswer: async (sampleChatRequestBody: SampleChatRequestBody) => {
+        const { data, error } = await apiClient.POST('/api/sample/answer', {
+            body: {
+                sectionId: sampleChatRequestBody.sectionId,
+                fineTuneModelId: sampleChatRequestBody.fineTuneModelId,
+                questionId: sampleChatRequestBody.questionId
+            }
+        });
         if (data !== undefined) return data;
         throw (error as ResponseError).message;
     }
