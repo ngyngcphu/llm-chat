@@ -146,6 +146,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * Get information and chat history of user by id
+         * @description Get information and chat history of user by id
+         */
         get: {
             parameters: {
                 query?: never;
@@ -165,6 +169,13 @@ export interface paths {
                             id: string;
                             /** Format: email */
                             email: string;
+                            sections: {
+                                total: number;
+                                data: {
+                                    id: string;
+                                    title: string;
+                                }[];
+                            };
                         };
                     };
                 };

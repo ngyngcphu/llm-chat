@@ -3,9 +3,8 @@ type LoginFormData = {
     password: string;
 };
 
-type SignUpFormData = {
-    firstname: string;
-    lastname: string;
+type SignupFormData = {
+    name: string;
     email: string;
     password: string;
 };

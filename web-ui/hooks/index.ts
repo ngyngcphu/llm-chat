@@ -9,3 +9,4 @@ export * from './useMarkdownProcessor';
 export * from './useSampleConversationMutation.hook';
 export * from './useSampleConversationQuery.hook';
 export * from './useScreenSize';
+export * from './useUserQuery.hook';

@@ -13,7 +13,14 @@ const getUserById: Handler<UserDto> = async (req, res) => {
         where: { id: userId }
     });
     if (user === null) return res.badRequest(USER_NOT_FOUND);
-    return user;
+    const allSections = await prisma.section.findMany({
+        select: {
+            id: true,
+            title: true
+        },
+        where: { userId }
+    });
+    return res.send({ ...user, sections: { total: allSections.length, data: allSections } });
 };
 
 export const usersHandler = {
