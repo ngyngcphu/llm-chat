@@ -26,6 +26,7 @@
     "db:studio": "npx prisma studio",
     "ui:start": "yarn barrels && cross-env NODE_ENV=development vite --host",
     "ui:build": "tsc && cross-env NODE_ENV=production vite build",
+    "ui:preview": "vite preview --host",
     "api:pull": "openapi-typescript http://localhost:8080/docs/json -o web-ui/openapi-spec.ts"
   },
   "dependencies": {
