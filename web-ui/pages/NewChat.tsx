@@ -18,7 +18,9 @@ export const NewChat: Component = () => {
     const navigate = useNavigate();
 
     const { listFineTuneModels } = useFineTuneModelQuery();
-    const { listQuestions } = useSampleConversationQuery();
+    const {
+        listQuestions: { data: listQuestions }
+    } = useSampleConversationQuery();
     const { createOrUpdateSectionBySample } = useSampleConversationMutation();
     const { createOrUpdateSectionByFineTune } = useFineTuneConversationMutation();
 

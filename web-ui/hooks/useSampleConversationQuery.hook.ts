@@ -10,6 +10,6 @@ export function useSampleConversationQuery() {
     });
 
     return {
-        listQuestions: listQuestions.data
+        listQuestions: listQuestions
     };
 }
