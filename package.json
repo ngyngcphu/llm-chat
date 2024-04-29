@@ -27,7 +27,9 @@
     "ui:start": "yarn barrels && cross-env NODE_ENV=development vite --host",
     "ui:build": "tsc && cross-env NODE_ENV=production vite build",
     "ui:preview": "vite preview --host",
-    "api:pull": "openapi-typescript http://localhost:8080/docs/json -o web-ui/openapi-spec.ts"
+    "api:pull": "openapi-typescript http://localhost:8080/docs/json -o web-ui/openapi-spec.ts",
+    "predeploy": "yarn ui:build",
+    "deploy": "gh-pages -d build"
   },
   "dependencies": {
     "@fastify/cookie": "^9.2.0",
@@ -86,6 +88,7 @@
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "gh-pages": "^6.1.1",
     "husky": "^8.0.3",
     "is-ci": "^3.0.1",
     "lint-staged": "^15.2.0",
