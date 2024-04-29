@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import Textarea from 'react-textarea-autosize';
 import { useQueryClient } from '@tanstack/react-query';
-import { Button, IconButton, Spinner, Typography } from '@material-tailwind/react';
+import { Avatar, Button, IconButton, Spinner, Typography } from '@material-tailwind/react';
 import { PaperAirplaneIcon } from '@heroicons/react/24/outline';
 import logo from '@ui/assets/dwarves-logo.png';
 import {
@@ -71,7 +71,18 @@ export const OldChat: Component = () => {
                             {chatHistory.data.map((m, index) => (
                                 <Message key={index} message={m} />
                             ))}
-                            {currentQuestion ? <Message message={currentQuestion} /> : null}
+                            {currentQuestion ? (
+                                <>
+                                    <Message message={currentQuestion} />
+                                    <div className='flex gap-1 justify-items-center items-center'>
+                                        <div className='flex items-center justify-items-center gap-1'>
+                                            <Avatar src={logo} alt='avatar' size='sm' />
+                                            <p className='font-sans text-sm font-semibold text-pink-700'>DwarvesBot</p>
+                                        </div>
+                                        <Spinner color='pink' className='h-6 w-6' />
+                                    </div>
+                                </>
+                            ) : null}
                         </ul>
                     ) : null}
                     {!currentQuestion ? (

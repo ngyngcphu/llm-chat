@@ -18,7 +18,8 @@ const getUserById: Handler<UserDto> = async (req, res) => {
             id: true,
             title: true
         },
-        where: { userId }
+        where: { userId },
+        orderBy: { id: 'desc' }
     });
     return res.send({ ...user, sections: { total: allSections.length, data: allSections } });
 };

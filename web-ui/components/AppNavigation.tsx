@@ -1,28 +1,18 @@
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 import { Card, List, ListItem, ListItemPrefix, Typography } from '@material-tailwind/react';
 import logo from '@ui/assets/dwarves-logo.png';
+import { useUserQuery } from '@ui/hooks';
 import { useSidebarStore } from '@ui/states';
 
 export const AppNavigation: Component<{ menu: RouteMenu }> = ({ menu }) => {
+    const queryClient = useQueryClient();
+
     const navigate = useNavigate();
-    const TITLE = [
-        'Run Typescript with Node.js',
-        'Run Typescript with Node.js',
-        'Run Typescript with Node.js',
-        'Run Typescript with Node.js',
-        'Run Typescript with Node.js',
-        'Run Typescript with Node.js',
-        'Run Typescript with Node.js',
-        'Run Typescript with Node.js',
-        'Run Typescript with Node.js',
-        'Run Typescript with Node.js',
-        'Run Typescript with Node.js',
-        'Run Typescript with Node.js',
-        'Run Typescript with Node.js',
-        'Run Typescript with Node.js',
-        'Run Typescript with Node.js'
-    ];
+    const {
+        info: { data: userInfo }
+    } = useUserQuery();
 
     const { collapseSidebar, setCollapseSidebar } = useSidebarStore();
 
@@ -63,20 +53,23 @@ export const AppNavigation: Component<{ menu: RouteMenu }> = ({ menu }) => {
                             </ListItem>
                         );
 
-                    if (menuItem.type === 'oldChat-btn' && TITLE.length > 0 && !collapseSidebar)
+                    if (menuItem.type === 'oldChat-btn' && (userInfo?.sections.total ?? 0) > 0 && !collapseSidebar)
                         return (
                             <div key={idx} className='h-96 overflow-auto'>
                                 <Typography variant='h6' color='blue-gray' className='px-4 py-2'>
                                     {!collapseSidebar ? 'Recent chats' : ''}
                                 </Typography>
-                                {TITLE.map((title, idx) => {
+                                {userInfo?.sections.data.map((title) => {
                                     return (
                                         <ListItem
-                                            onClick={() => navigate(menuItem.path.replace(':id', idx.toString()))}
-                                            key={menuItem.path + idx}
+                                            onClick={() => {
+                                                queryClient.setQueryData(['currentSectionId'], title.id);
+                                                navigate(menuItem.path.replace(':id', title.id));
+                                            }}
+                                            key={title.id}
                                         >
                                             <ListItemPrefix>{menuItem.icon}</ListItemPrefix>
-                                            {title}
+                                            {title.title}
                                         </ListItem>
                                     );
                                 })}
