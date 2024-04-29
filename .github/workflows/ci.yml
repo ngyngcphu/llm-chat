@@ -24,7 +24,7 @@ jobs:
 
       - name: Setup env file
         run: |
-          echo VITE_BACKEND_URL=${{ vars.VITE_BACKEND_URL }} >> .env
+          echo VITE_BACKEND_URL=${{ secrets.VITE_BACKEND_URL }} >> .env
 
       - name: Install dependencies
         run: yarn

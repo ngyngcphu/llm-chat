@@ -2,6 +2,7 @@
   "name": "llm-chat",
   "version": "1.0.0",
   "license": "ISC",
+  "homepage": "https://ngyngcphu.github.io/llm-chat",
   "repository": "git@github.com:ngyngcphu/llm-chat.git",
   "description": "",
   "type": "module",
