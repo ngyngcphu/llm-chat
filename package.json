@@ -7,7 +7,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "prepare": "is-ci || husky install && yarn api:pull",
+    "prepare": "is-ci || husky install",
     "barrels": "barrelsby --config .barrelsby.json -q",
     "lint": "eslint '**/*.{tsx,ts,js}'",
     "lint:fix": "eslint '**/*.{tsx,ts,js}' --fix",
